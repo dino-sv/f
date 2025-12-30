@@ -168,27 +168,43 @@ textarea{
 thank you for lending your time<br><br>
 just to read this ❤️
 </div><script>
-let screen=1,player='',hearts=0,theme='red';
+let screen=1,player='',hearts=0;
 const bar=document.getElementById('bar');
+const popup=document.getElementById('popup');
+
 function go(n){
-function next(){screen++;show()}
+  screen=n;
+  show();
+}
+
+function next(){
+  screen++;
+  show();
+}
+
 function show(){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  document.getElementById('s'+screen).classList.add('active');
+  const current=document.getElementById('s'+screen);
+  if(current) current.classList.add('active');
   bar.style.width=((screen-1)/6*100)+'%';
   if(screen===7) typeLetter();
 }
+
 function saveName(){
   const n=document.getElementById('name').value.trim();
   if(!n) return alert('enter your name ❤️');
-  player=n; next();
+  player=n;
+  next();
 }
+
 function tap(){
   hearts++;
   document.getElementById('count').innerText=hearts+' / 5';
   if(hearts>=5) next();
 }
-const confession=`hey ${player}.
+
+function typeLetter(){
+  const confession=`hey ${player}.
 my heart’s been trying to tell me something for a while now,
 and i think i finally listened.
 
@@ -212,10 +228,11 @@ here it is—
 i like you.
 because you’re you.
 and telling you this is more than enough.`;
-let i=0;
-function typeLetter(){
+
   const box=document.getElementById('letter');
-  box.value=''; i=0;
+  box.value='';
+  let i=0;
+
   const t=setInterval(()=>{
     box.value+=confession.charAt(i);
     box.scrollTop=box.scrollHeight;
